@@ -12,7 +12,7 @@ class modeloTablaDatos{
 	public function muetraDatos(){
 
 		$conexion = self::conexion();
-		$sql="SELECT id,nombre,aPaterno,aMaterno,edad FROM usuarios;";
+		$sql="SELECT id,nombre,aPaterno,aMaterno,edad FROM usuarios";
 		$result = mysqli_query($conexion,$sql);
 		return mysqli_fetch_all($result,MYSQLI_ASSOC);
 

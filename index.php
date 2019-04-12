@@ -102,6 +102,64 @@
 </div>
 
 
+<div class="modal fade" id="example" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar Datos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              
+              <form id="formulario1"> 
+                <div class="form-row">
+
+                  <input type="text" name="ide" id="ide" hidden>
+                  <div class="form-group col-sm-6">
+                    <label for="">Nombre</label>
+                    <input type="text" class="form-control" name="nom1" id="nom1">
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label for="">Apellido paterno</label>
+                    <input type="text" class="form-control" name="aPa1" id="aPa1">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-sm-6">
+                    <label for="">Apellido materno</label>
+                    <input type="text" class="form-control" name="aMa1" id="aMa1">
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label for="">edad</label>
+                    <input type="text" class="form-control" name="edad1" id="edad1">
+                  </div>
+                </div>
+              
+
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="editar">Editar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="js/jquery.min.js"></script>
@@ -179,6 +237,66 @@
     
 
   </script>
+
+<script>
+    
+    function muestraDatos(id){
+
+      $.ajax({
+        type:'POST',
+        url:'ajax/muestraDatos.php',
+        data:'id='+id,
+        success: function(r){
+          console.log(r);
+           dato = jQuery.parseJSON(r);
+          $("#ide").val(dato['id']);
+          $('#nom1').val(dato['nombre']);
+          $('#aPa1').val(dato['aPaterno']);
+          $('#aMa1').val(dato['aMaterno']);
+          $('#edad1').val(dato['edad']);
+        }
+      });
+
+    }
+
+
+</script>
+
+<script>
+  $('#editar').on('click', function(e) {
+      e.preventDefault();
+        
+        var datos1 = $('#formulario1').serialize();
+
+        $.ajax({
+          type:'POST',
+          url:'ajax/editar.php',
+          data:datos1,
+          success: function(r){
+            if (r == 1) {
+              console.log(r);
+              alertify.success("Editado con exito");
+              $("#example").modal("hide");
+               $('#tabla').load('tablaDatos.php');
+            }else{
+              console.log(r);
+              alertify.error("error al editar");
+              $("#example").modal("hide");
+            }
+
+          }
+
+
+        });
+
+    });  
+
+
+
+</script>
+
+
+
 
 
   </body>
